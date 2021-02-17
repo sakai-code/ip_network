@@ -64,6 +64,17 @@ namespace IP_NETWORK {
         onxHandler = handler
       
     }
+     /**
+     * TODO:自分のipアドレス（192.168.0.X形式)で表示
+   　
+     */
+    //%weight=90
+    //% group="LAN"
+    //% block="自分のIpアドレスの192.168.0.〇に設定した〇の数字を表示"
+    export function myip():void{
+        basic.showNumber(myipaddress)
+      
+    }
     /**
      * TODO:受信した文字列（英数字のみ）
    　
