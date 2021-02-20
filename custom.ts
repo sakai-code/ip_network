@@ -2,18 +2,23 @@
 //% weight=100 color=#0fbc11 icon="\uf1eb"
 //% groups="['LAN', 'SERVER']"
 namespace IP_NETWORK {
-    let receivedtoip : number
-    let receivedfromip : string
+    let receivedtoip = 0
+    let receivedfromip = ""
     let setgflags = 0
+    let receivednumber = 0
    
    
-    let myipaddress : number
+    let myipaddress = 0
     let makestring = "" 
-    let receivedtext : string 
+    let receivedtext =""
+    let targetdevice =""
+    let targetvalue = 0
+
 
 
     let onxHandler:  (name :string,value:number) => void
     let onGroupHandler: (name:string) => void
+    let onvalueHandler:(name :string,value:number) => void
     //%block="グループ番号$nでデバイスのIPアドレスを192.168.0.$xにする"
     //%weight=100
     //% group="LAN"
@@ -41,6 +46,7 @@ namespace IP_NETWORK {
             
             if (flags == 1){
                 receivedtext = receivedString.substr(1,17)
+                receivedfromip = receivedString.substr(0,1)
                 
             onxHandler(receivedtext,1)
             flags= 0
@@ -48,6 +54,21 @@ namespace IP_NETWORK {
                 
 
             }
+            
+        })
+
+        radio.onReceivedValue(function (name: string, value: number) {
+            if (flags == 1){
+                 receivedtext = name.substr(1,7)
+                receivedfromip = name.substr(0,1)
+                targetvalue = value
+                
+            onvalueHandler(name,value)
+            }
+            
+
+
+            
             
         })
     }
@@ -59,18 +80,36 @@ namespace IP_NETWORK {
      */
     //%weight=90
     //% group="LAN"
-    //% block="デバイス宛のアドレスにメッセージを受け取ったら実行する"
-    export function onfoo(handler:()=> void){
+    //% receivedtext.defl=receivedtext
+    //% draggableParameters="reporter"
+    //% block="デバイス宛にメッセージ $receivedtext を受け取ったら実行する"
+    export function onreceived(handler:(receivedtext :string)=> void){
         onxHandler = handler
       
     }
+    /**
+     * TODO:デバイス宛にテキストと数値を受け取ったら
+   　
+     */
+    //%weight=85
+    //% group="LAN"
+    //% text.defl  = targetdevice
+    //% number.defl = targetvalue
+    
+    //% draggableParameters="reporter"
+    //% block="デバイス宛に文字 $text と数値 $numberを受け取ったら実行する"
+
+export function ontarget(handler:(text :string, number :number)=> void){
+    onvalueHandler = handler
+
+}
      /**
      * TODO:自分のipアドレス（192.168.0.X形式)で表示
    　
      */
     //%weight=90
     //% group="LAN"
-    //% block="自分のIpアドレスの192.168.0.〇に設定した〇の数字を表示"
+    //% block="自分のIpアドレスの192.168.0.〇に設定した数字を表示"
     export function myip():void{
         basic.showNumber(myipaddress)
       
@@ -91,17 +130,35 @@ namespace IP_NETWORK {
 
 
     }
+     /**
+     * TODO:受信した相手のIPアドレス（192.168.0.X形式）
+   　
+     */
+    //%weight=75
+    //% group="LAN"
+    //% block="受信した相手のIPアドレスの情報（192.168.0.X形式）"
+    export function receivedip():string　{ 
+        let fromip = ""
+        fromip = "192.168.0."+""+receivedfromip
+        return fromip
+
+
+
+
+    }
+
     /**
      * TODO:IPアドレスXに文字列（英数字のみ）を送信
+     * @param y 送信する文字列　,eg:"Hello!"
    　
      */
     //%weight=70
     //% group="LAN"
-    
-    //% block="IPアドレス192.168.0.$nに文字列%yを送信（英数字のみ１７文字まで）"
+    //% block="IPアドレス192.168.0.|$n|に文字列|$y|を送信（英数字のみ１7文字まで）"
     //% n.min=1 n.max=99 n.defl=1
-    //% y.defl= "HELLO"
-    export function sendmessege(n:number,y:string ){
+   
+  
+    export function sendmessege(n:number, y:string ){
         radio.sendNumber(n)
 
         makestring =""+ convertToText(myipaddress)+""+y ;
@@ -111,6 +168,31 @@ namespace IP_NETWORK {
         
 
     }
+    
+    /**
+     * TODO:IPアドレスXに文字列（英数字のみ）を送信
+     * @param y 送信する文字列　,eg:"a"
+   　
+     */
+    //%weight=70
+    //% group="LAN"
+    //% block="IPアドレス192.168.0.$nに文字（推奨1文字）$yと数値 $m を送信"
+    //% n.min=1 n.max=99 n.defl=1
+    //% m.min=-180 m.max=180 m.defl=1
+   
+  
+    export function sendmvalue(n:number, y:string , m :number){
+        radio.sendNumber(n)
+
+        makestring =""+ convertToText(myipaddress)+""+y ;
+        
+        radio.sendValue(makestring, m)
+        
+        
+
+    }
+
+
 
  /**
      * IPアドレスXに8文字までの暗号化した文字を送信する　（無効化中）
