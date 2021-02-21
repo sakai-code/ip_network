@@ -88,10 +88,32 @@ namespace IP_NETWORK {
       
     }
     /**
+     * TODO:受信したIPアドレス宛にメッセージを返す。
+   　
+     */
+    //%weight=89
+    //% group="LAN"
+    //% block="受信したIPアドレス宛にメッセージを $t を返す。"
+
+export function　rep(t : string ="OK"):void{
+    let toip = 　parseInt( receivedfromip)
+    radio.sendNumber(toip)
+    makestring =""+ convertToText(myipaddress)+""+t ;
+        
+    radio.sendString(makestring)
+
+
+    
+
+    
+
+}
+
+    /**
      * TODO:デバイス宛にテキストと数値を受け取ったら
    　
      */
-    //%weight=85
+    //%weight=70
     //% group="LAN"
     //% text.defl  = targetdevice
     //% number.defl = targetvalue
@@ -152,7 +174,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
      * @param y 送信する文字列　,eg:"Hello!"
    　
      */
-    //%weight=70
+    //%weight=80
     //% group="LAN"
     //% block="IPアドレス192.168.0.|$n|に文字列|$y|を送信（英数字のみ１7文字まで）"
     //% n.min=1 n.max=99 n.defl=1
