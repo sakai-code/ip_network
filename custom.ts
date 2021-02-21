@@ -353,7 +353,10 @@ export function ontarget(handler:(text :string, number :number)=> void){
     //% block="送出元IPアドレス to 宛先IPアドレス+メッセージの内容の文字列"
     export function  receivedmessage():string　{ 
         let receivedmessage:string;
+
+       
         receivedmessage = "192.168.0."+""+receivedfromip+" to "+"192.168.0."+""+convertToText(receivedtoip)+" "+""+receivedtext;
+
         return receivedmessage;
         
 
