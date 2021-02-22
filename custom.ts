@@ -176,7 +176,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
      */
     //%weight=80
     //% group="LAN"
-    //% block="IPアドレス192.168.0.|$n|に文字列|$y|を送信（英数字のみ１7文字まで）"
+    //% block="IPアドレス192.168.0.$nに文字列$yを送信（英数字のみ１7文字まで）"
     //% n.min=1 n.max=99 n.defl=1
    
   
