@@ -1,1 +1,0 @@
-IP_NETWORK.sendmessege(1, "Hello!")

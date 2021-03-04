@@ -1,3 +1,29 @@
+enum lis{
+    //%block="0"
+    zero = 0,
+    //%block="1"
+    one = 1,
+    //%block="2"
+    two = 2,
+     //%block="3"
+    three = 3,
+    //%block="4"
+    four = 4,
+    //%block="5"
+    five = 5,
+    //%block="6"
+    six = 6,
+     //%block="7"
+    seven = 7,
+    //%block="8"
+    eight = 8,
+    
+
+    
+
+
+
+}
 
 //% weight=100 color=#0fbc11 icon="\uf1eb"
 //% groups="['LAN', 'SERVER']"
@@ -10,10 +36,10 @@ namespace IP_NETWORK {
    
     let myipaddress = 0
     let makestring = "" 
-    let receivedtext =""
-    let targetdevice =""
+    let receivedtext = ""
+    let targetdevice = ""
     let targetvalue = 0
-
+    let list = ["","","","","","","","",""]
 
 
     let onxHandler:  (name :string,value:number) => void
@@ -23,8 +49,7 @@ namespace IP_NETWORK {
     //%weight=100
     //% group="LAN"
     //% n.min=1 n.max=99 n.defl=1
-    //% x.min=1 x.max=99 x.defl=1
-    
+    //% x.min=1 x.max=99 x.defl=1   
      /**
      * TODO:デバイスのIPアドレスを定めて初期化
      */
@@ -119,7 +144,7 @@ export function　rep(t : string ="OK"):void{
     //% number.defl = targetvalue
     
     //% draggableParameters="reporter"
-    //% block="デバイス宛に文字 $text と数値 $numberを受け取ったら実行する"
+    //% block="デバイス宛に文字 $text と数値 $number を受け取ったら実行する"
 
 export function ontarget(handler:(text :string, number :number)=> void){
     onvalueHandler = handler
@@ -176,10 +201,9 @@ export function ontarget(handler:(text :string, number :number)=> void){
      */
     //%weight=80
     //% group="LAN"
-    //% block="IPアドレス192.168.0. $n に文字列 $y を送信（英数字のみ１7文字まで）"
+    //% block="IPアドレス192.168.0. $n に文字列 $yを送信（英数字のみ１7文字まで）"
     //% n.min=1 n.max=99 n.defl=1
-
-    export function sendmessege(n:number, y:string ){
+    export function sendmessege(n:number,y:string ):void{
         radio.sendNumber(n)
 
         makestring =""+ convertToText(myipaddress)+""+y ;
@@ -200,8 +224,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
     //% block="IPアドレス192.168.0.$nに文字（推奨1文字）$yと数値 $m を送信"
     //% n.min=1 n.max=99 n.defl=1
     //% m.min=-180 m.max=180 m.defl=1
-   
-  
+
     export function sendmvalue(n:number, y:string , m :number){
         radio.sendNumber(n)
 
