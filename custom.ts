@@ -37,11 +37,11 @@ namespace IP_NETWORK {
     let receivedtext = ""
     let targetdevice = ""
     let targetvalue = 0
-    let list = ["","","","","","","","",""]
+    let list = [" ","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
 
    function setinit(){
-        onxHandler("",0) 
+        onxHandler("a",0) 
     }
     setinit()
 
@@ -283,6 +283,7 @@ export function　rep(t : string ="OK"):void{
     export function server(n:number){
         radio.setGroup(n)
         setgflags = 0
+        myipaddress = 0
          radio.onReceivedNumber(function (receivedNumber: number) {
              
              
@@ -298,16 +299,29 @@ export function　rep(t : string ="OK"):void{
         })
 
         radio.onReceivedString(function (receivedString: string) {
-            if(setgflags ==1){
-                let ip = receivedString.substr(0,1)
-                receivedfromip = ip
+            if (setgflags == 1){
                 receivedtext = receivedString.substr(1,17)
-               
-              
-                setgflags = 0
 
-                onxHandler(receivedtext,0)
+                receivedfromip = receivedString.substr(0,1)
+                if(receivedtext.substr(0,12) == "REQUESTDATA:"){
+                    let  data = parseInt(receivedtext.substr(12,1))
+                    let toip = 　parseInt( receivedfromip)
+                 radio.sendNumber(toip)
+                makestring =""+ convertToText(myipaddress)+""+ list[data];
+                radio.sendString(makestring)
+                    
+                  
+                  
 
+
+
+                }else{
+             
+                onxHandler(receivedtext,1)
+                setgflags= 0
+                }
+
+                
 
             }
 
@@ -315,18 +329,7 @@ export function　rep(t : string ="OK"):void{
             
         })
 
-        radio.onReceivedValue(function (name: string, value: number) {
-               if (setgflags == 1){
-                 receivedtext = name.substr(1,7)
-                receivedfromip = name.substr(0,1)
-                targetvalue = value
-                
-            onxHandler(name,value)
-            setgflags = 0
-            
-            
-        }
-        })
+   
       
         
     }
