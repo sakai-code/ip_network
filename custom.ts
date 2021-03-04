@@ -32,19 +32,19 @@ namespace IP_NETWORK {
     let receivedfromip = ""
     let setgflags = 0
     let receivednumber = 0
-   
-   
     let myipaddress = 0
     let makestring = "" 
     let receivedtext = ""
     let targetdevice = ""
     let targetvalue = 0
     let list = ["","","","","","","","",""]
-
-
     let onxHandler:  (name :string,value:number) => void
-    let onGroupHandler: (name:string) => void
-    let onvalueHandler:(name :string,value:number) => void
+
+   function setinit(){
+        onxHandler("",0) 
+    }
+    setinit()
+
     //%block="グループ番号$nでデバイスのIPアドレスを192.168.0.$xにする"
     //%weight=100
     //% group="LAN"
@@ -71,10 +71,25 @@ namespace IP_NETWORK {
             
             if (flags == 1){
                 receivedtext = receivedString.substr(1,17)
+
                 receivedfromip = receivedString.substr(0,1)
-                
-            onxHandler(receivedtext,1)
-            flags= 0
+                if(receivedtext.substr(0,12) == "REQUESTDATA:"){
+                    let  data = parseInt(receivedtext.substr(12,1))
+                    let toip = 　parseInt( receivedfromip)
+                 radio.sendNumber(toip)
+                makestring =""+ convertToText(myipaddress)+""+ list[data];
+                radio.sendString(makestring)
+                    
+                  
+                  
+
+
+
+                }else{
+             
+                onxHandler(receivedtext,1)
+                flags= 0
+                }
 
                 
 
@@ -82,20 +97,7 @@ namespace IP_NETWORK {
             
         })
 
-        radio.onReceivedValue(function (name: string, value: number) {
-            if (flags == 1){
-                 receivedtext = name.substr(1,7)
-                receivedfromip = name.substr(0,1)
-                targetvalue = value
-                
-            onvalueHandler(name,value)
-            }
-            
-
-
-            
-            
-        })
+        
     }
 
          
@@ -125,31 +127,12 @@ export function　rep(t : string ="OK"):void{
     radio.sendNumber(toip)
     makestring =""+ convertToText(myipaddress)+""+t ;
         
-    radio.sendString(makestring)
-
-
-    
-
+   
     
 
 }
 
-    /**
-     * TODO:デバイス宛にテキストと数値を受け取ったら
-   　
-     */
-    //%weight=70
-    //% group="LAN"
-    //% text.defl  = targetdevice
-    //% number.defl = targetvalue
-    
-    //% draggableParameters="reporter"
-    //% block="デバイス宛に文字 $text と数値 $number を受け取ったら実行する"
 
-export function ontarget(handler:(text :string, number :number)=> void){
-    onvalueHandler = handler
-
-}
      /**
      * TODO:自分のipアドレス（192.168.0.X形式)で表示
    　
@@ -161,6 +144,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
         basic.showNumber(myipaddress)
       
     }
+
     /**
      * TODO:受信した文字列（英数字のみ）
    　
@@ -177,6 +161,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
 
 
     }
+
      /**
      * TODO:受信した相手のIPアドレス（192.168.0.X形式）
    　
@@ -214,27 +199,8 @@ export function ontarget(handler:(text :string, number :number)=> void){
 
     }
     
-    /**
-     * TODO:IPアドレスXに文字列（英数字のみ）を送信
-     * @param y 送信する文字列　,eg:"a"
-   　
-     */
-    //%weight=70
-    //% group="LAN"
-    //% block="IPアドレス192.168.0.$nに文字（推奨1文字）$yと数値 $m を送信"
-    //% n.min=1 n.max=99 n.defl=1
-    //% m.min=-180 m.max=180 m.defl=1
+    
 
-    export function sendmvalue(n:number, y:string , m :number){
-        radio.sendNumber(n)
-
-        makestring =""+ convertToText(myipaddress)+""+y ;
-        
-        radio.sendValue(makestring, m)
-        
-        
-
-    }
 
 
 
@@ -340,7 +306,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
               
                 setgflags = 0
 
-                onGroupHandler(receivedtext)
+                onxHandler(receivedtext,0)
 
 
             }
@@ -348,9 +314,61 @@ export function ontarget(handler:(text :string, number :number)=> void){
             
             
         })
+
+        radio.onReceivedValue(function (name: string, value: number) {
+               if (setgflags == 1){
+                 receivedtext = name.substr(1,7)
+                receivedfromip = name.substr(0,1)
+                targetvalue = value
+                
+            onxHandler(name,value)
+            setgflags = 0
+            
+            
+        }
+        })
       
         
     }
+      /**
+     * TODO:　サーバー内にデータをセットし、リクエストがあったら応える　
+     */
+    //%weight=50
+    //% group="SERVER"
+    //% block="データをセットしておく"
+    export function iot(handler:()=>void){
+ 
+    }
+      /**
+     * TODO:応答するIDと対応するデータを登録　
+     */
+    //%weight=50
+    //% group="SERVER"
+    //% block="ID $nに数字%mをセット（自動的に文字列として保存）"
+    export function  setdata(n:lis,m:number){
+        list[n] = convertToText(m)
+
+
+        
+ 
+    }
+        /**
+     * TODO:応答するIDと対応するデータを登録　
+     */
+    //%weight=50
+    //% group="SERVER"
+    //% block="ID $n文字列$s　(7文字まで)をセット"
+    export function  setdatastr(n:lis,s:string){
+        list[n] = s
+
+
+        
+ 
+    }
+
+
+
+
     
      /**
      * TODO:メッセージのやり取りがあったら実行する
@@ -361,7 +379,7 @@ export function ontarget(handler:(text :string, number :number)=> void){
     //% block="メッセージのやり取りがあったら"
     
     export function onserver(handler:()=>void){
-         onGroupHandler = handler;
+         onxHandler = handler;
         
         
         
