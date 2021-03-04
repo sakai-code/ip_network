@@ -40,10 +40,11 @@ namespace IP_NETWORK {
     let list = [" ","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
 
-   function setinit(){
-        onxHandler("a",0) 
+   function setinit(handler:()=>void){
+        onxHandler = handler
     }
-    setinit()
+    setinit(function(){})
+    
 
     //%block="グループ番号$nでデバイスのIPアドレスを192.168.0.$xにする"
     //%weight=100
@@ -301,20 +302,14 @@ export function　rep(t : string ="OK"):void{
         radio.onReceivedString(function (receivedString: string) {
             if (setgflags == 1){
                 receivedtext = receivedString.substr(1,17)
-
                 receivedfromip = receivedString.substr(0,1)
                 if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                    let  data = parseInt(receivedtext.substr(12,1))
-                    let toip = 　parseInt( receivedfromip)
-                 radio.sendNumber(toip)
+                let  data = parseInt(receivedtext.substr(12,1))
+                let toip = 　parseInt( receivedfromip)
+                radio.sendNumber(toip)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 radio.sendString(makestring)
                     
-                  
-                  
-
-
-
                 }else{
              
                 onxHandler(receivedtext,1)
