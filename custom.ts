@@ -35,7 +35,7 @@ namespace IP_NETWORK {
     let myipaddress = 0
     let makestring = "" 
     let receivedtext = ""
-    let targetdevice = ""
+    
     let targetvalue = 0
     let list = [" ","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
@@ -162,6 +162,26 @@ export function　rep(t : string ="OK"):void{
 
 
     }
+    /**
+     * TODO:サーバーにID　Xのデータを問い合わせる
+   　
+     */
+    //%weight=80
+    //% group="LAN"
+    //% block="サーバーに　ID $nのデータを問い合わせる　受け取ったデータ: $DATA"
+    //% DATA.defl=receivedtext
+    //% draggableParameters="reporter"
+    export function askdata(n:number,DATA:lis):void　{ 
+        radio.sendNumber(0)
+        makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
+        radio.sendString(makestring)
+        
+       
+
+
+
+
+    }
 
      /**
      * TODO:受信した相手のIPアドレス（192.168.0.X形式）
@@ -279,7 +299,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=60
     //% group="SERVER"
-    //% block="グループ番号$nのサーバーになり、メッセージの流れを見る"
+    //% block="グループ番号$n、192.168.0.0のサーバーになり、メッセージの流れを見る"
     //% n.min=1 n.max=99 n.defl=1
     export function server(n:number){
         radio.setGroup(n)
@@ -292,6 +312,12 @@ export function　rep(t : string ="OK"):void{
             if(setgflags == 0){
                 setgflags = 1
                 receivedtoip = receivedNumber
+　　　　　　　　　if(receivedtoip == 0){  
+                targetvalue = 1  
+
+
+            }
+            
 
 
             }
@@ -301,14 +327,19 @@ export function　rep(t : string ="OK"):void{
 
         radio.onReceivedString(function (receivedString: string) {
             if (setgflags == 1){
+                let data = 0
                 receivedtext = receivedString.substr(1,17)
                 receivedfromip = receivedString.substr(0,1)
+                if(targetvalue == 1){
                 if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                let  data = parseInt(receivedtext.substr(12,1))
+                data = parseInt(receivedtext.substr(12,1))
+                
+                
                 let toip = 　parseInt( receivedfromip)
                 radio.sendNumber(toip)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 radio.sendString(makestring)
+                }
                     
                 }else{
              
