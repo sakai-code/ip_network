@@ -199,8 +199,8 @@ export function　rep(t : string ="OK"):void{
     //% s.defl=1 s.min=1 s.max=99
     //% draggableParameters="reporter"
      //% block="192.168.0.$sに　ID $nのデータを問い合わせた文字列"
-    export function askdataip(n:lis,DATA:string):string　{ 
-        radio.sendNumber(0)
+    export function askdataip(n:lis,s:number):string　{ 
+        radio.sendNumber(s)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
         radio.sendString(makestring)
 
