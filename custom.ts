@@ -190,7 +190,7 @@ export function　rep(t : string ="OK"):void{
 
     }
       /**
-     * TODO:IPアドレス192.168.0.Xに登録されたでーたを問い合わせる
+     * TODO:IPアドレス192.168.0.Xに登録されたデータを問い合わせる
    　
      */
     //%weight=80
