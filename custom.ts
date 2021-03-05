@@ -172,7 +172,7 @@ export function　rep(t : string ="OK"):void{
     //% group="LAN"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに　ID $nのデータを問い合わせる　受け取ったデータ: $DATA"
+     //% block="サーバーに　ID $nのデータを問い合わせる　受け取ったデータ:|$DATA"
     export function askdata(n:lis,DATA:string):void　{ 
         radio.sendNumber(0)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
