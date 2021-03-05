@@ -172,11 +172,16 @@ export function　rep(t : string ="OK"):void{
     //% group="IOT"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに　ID $nのデータを問い合わせる　受け取ったデータ:|$DATA"
-    export function askdata(n:lis,DATA:string):void　{ 
+     //% block="サーバーに　ID $nのデータを問い合わせた文字列"
+    export function askdata(n:lis,DATA:string):string　{ 
         radio.sendNumber(0)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
         radio.sendString(makestring)
+
+        basic.pause(100)
+        return receivedtext
+
+
         
        
 
@@ -184,6 +189,33 @@ export function　rep(t : string ="OK"):void{
 
 
     }
+      /**
+     * TODO:IPアドレス192.168.0.Xに登録されたでーたを問い合わせる
+   　
+     */
+    //%weight=80
+    //% group="IOT"
+    //% DATA.defl=receivedtext
+    //% s.defl=1 s.min=1 s.max=99
+    //% draggableParameters="reporter"
+     //% block="192.168.0.$sに　ID $nのデータを問い合わせた文字列"
+    export function askdataip(n:lis,DATA:string):string　{ 
+        radio.sendNumber(0)
+        makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
+        radio.sendString(makestring)
+
+        basic.pause(20)
+        return receivedtext
+
+
+        
+       
+
+
+
+
+    }
+
 
      /**
      * TODO:受信した相手のIPアドレス（192.168.0.X形式）
