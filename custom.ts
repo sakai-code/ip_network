@@ -28,7 +28,7 @@ enum lis{
 }
 
 //% weight=100 color=#0fbc11 icon="\uf1eb"
-//% groups="['LAN', 'SERVER']"
+//% groups="['LAN', 'SERVER','IOT']"
 namespace IP_NETWORK {
     let receivedtoip = 0
     let receivedfromip = ""
@@ -169,7 +169,7 @@ export function　rep(t : string ="OK"):void{
    　
      */
     //%weight=80
-    //% group="LAN"
+    //% group="IOT"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
      //% block="サーバーに　ID $nのデータを問い合わせる　受け取ったデータ:|$DATA"
@@ -365,7 +365,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:　サーバー内にデータをセットし、リクエストがあったら応える　
      */
     //%weight=50
-    //% group="SERVER"
+    //% group="IOT"
     //% block="データをセットしておく"
     export function iot(handler:()=>void){
  
@@ -374,7 +374,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:応答するIDと対応するデータを登録　
      */
     //%weight=50
-    //% group="SERVER"
+    //% group="IOT"
     //% block="ID $nに数字%mをセット（自動的に文字列として保存）"
     export function  setdata(n:lis,m:number){
         list[n] = convertToText(m)
@@ -387,7 +387,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:応答するIDと対応するデータを登録　
      */
     //%weight=50
-    //% group="SERVER"
+    //% group="IOT"
     //% block="ID $n文字列$s　(7文字まで)をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
