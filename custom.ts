@@ -168,7 +168,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:サーバーにID　Xのデータを問い合わせる
    　
      */
-    //%weight=80
+    //%weight=60
     //% group="IOT"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
@@ -241,7 +241,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN"
-    //% block="IPアドレス192.168.0. $n に文字列 $yを送信（英数字のみ１7文字まで）"
+    //% block="IPアドレス192.168.0. $n に文字列 $y　（17文字までの英数字）"
     //% n.min=1 n.max=99 n.defl=1
     export function sendmessege(n:number,y:string ):void{
         radio.sendNumber(n)
@@ -420,7 +420,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=50
     //% group="IOT"
-    //% block="ID $n文字列$s　(7文字まで)をセット"
+    //% block="ID $n文字列$s　（15文字までの英数字）をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
 
