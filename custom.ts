@@ -17,6 +17,8 @@ enum lis{
     seven = 7,
     //%block="8"
     eight = 8,
+    //%block="9"
+    nine = 9
     
 
     
@@ -37,7 +39,7 @@ namespace IP_NETWORK {
     let receivedtext = ""
     
     let targetvalue = 0
-    let list = [" ","","","","","","","",""]
+    let list = ["","","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
 
    function setinit(handler:()=>void){
