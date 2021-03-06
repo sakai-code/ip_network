@@ -173,7 +173,7 @@ export function　rep(t : string ="OK"):void{
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
      //% block="サーバーに　ID $nのデータを問い合わせた結果の文字列"
-    export function askdata(n:lis,DATA:string):string　{ 
+    export function askdata(n:lis):string　{ 
         radio.sendNumber(0)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
         radio.sendString(makestring)
