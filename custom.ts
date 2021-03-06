@@ -77,7 +77,8 @@ namespace IP_NETWORK {
 
                 receivedfromip = receivedString.substr(0,1)
                 if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                    let  data = parseInt(receivedtext.substr(12,1))
+                   
+                    let  data = parseInt(receivedtext.substr(13,1))
                     let toip = 　parseInt( receivedfromip)
                  radio.sendNumber(toip)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
