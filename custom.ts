@@ -42,14 +42,21 @@ namespace IP_NETWORK {
     let targetvalue = 0
     let list = ["","","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
-    let initHandler: () =>void 
+    let initHandler: (a:number) =>void 
 
    function setinit(handler:()=>void){
 
-        onxHandler = handler
+        onxHandler = handler　//エラー対策
     }
-    setinit(function(){initHandler()}
-    )
+      function setinit2(handler:()=>void){
+
+        initHandler = handler //エラー対策
+    }
+
+   setinit(function(){})
+   setinit2(function(){})
+
+ 
     
 
     //%block="グループ番号$nでデバイスのIPアドレスを192.168.0.$xにする"
@@ -61,9 +68,11 @@ namespace IP_NETWORK {
      * TODO:デバイスのIPアドレスを定めて初期化
      */
     export function oninit(n:number,x:number){
+        initHandler(1)
         radio.setGroup(n)
         myipaddress = x
         let flags = 0
+        let tempstr = ""
         radio.onReceivedNumber(function (receivedNumber: number) {
          
           
@@ -75,31 +84,34 @@ namespace IP_NETWORK {
         })
 
         radio.onReceivedString(function (receivedString: string) {
+            tempstr = receivedString
             
             if (flags == 1){
-                receivedtext = receivedString.substr(1,17)
-
-                receivedfromip = receivedString.substr(0,1)
-                if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                   
-                    let  data = parseInt(receivedtext.substr(13,0))
+             
+                
+                if(tempstr.substr(1,12) == "REQUESTDATA:"){
+                    receivedfromip = tempstr.substr(0,1)                 
+                    let  data = parseInt(tempstr.substr(13,1))
                     let toip = 　parseInt( receivedfromip)
-                 radio.sendNumber(toip)
-                 basic.pause(10)
+                radio.sendNumber(toip)
+                basic.pause(5)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 basic.pause(5)
                 radio.sendString(makestring)
                 flags = 0
+                receivedtext = ""
                     
-                  
-                  
-
-
+ 
 
                 }else{
+                receivedtext = tempstr.substr(1,17)
+
+                receivedfromip = tempstr.substr(0,1)
+                
              
                 onxHandler(receivedtext,1)
                 flags= 0
+                tempstr =  ""
                 }
 
                 
@@ -210,9 +222,10 @@ export function　rep(t : string ="OK"):void{
     export function askdataip(n:lis,s:number):string　{ 
         radio.sendNumber(s)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
+        basic.pause(5)
         radio.sendString(makestring)
 
-        basic.pause(20)
+        basic.pause(5)
         return receivedtext
 
 
@@ -237,9 +250,6 @@ export function　rep(t : string ="OK"):void{
         fromip = "192.168.0."+""+receivedfromip
         return fromip
 
-
-
-
     }
 
     /**
@@ -256,17 +266,10 @@ export function　rep(t : string ="OK"):void{
 
         makestring =""+ convertToText(myipaddress)+""+y ;
         
-        radio.sendString(makestring)
-        
-        
-
+        radio.sendString(makestring)    
     }
     
     
-
-
-
-
  /**
      * IPアドレスXに8文字までの暗号化した文字を送信する　（無効化中）
    　
@@ -277,19 +280,13 @@ export function　rep(t : string ="OK"):void{
         let ystr = ""
         for (let i = 0 ; i<y.length-1 ; i++){
             ystr += y.charCodeAt(i)
-            
-            
-
-
-
+        
         }
 
         makestring =""+ convertToText(myipaddress)+""+ystr ;
         
         radio.sendString(makestring)
-        
-        
-
+ 
     }
 
     /**
@@ -368,24 +365,29 @@ export function　rep(t : string ="OK"):void{
         })
 
         radio.onReceivedString(function (receivedString: string) {
+            initHandler(1)
+            let tempstr = receivedString
             if (setgflags == 1){
                 let data = 0
-                receivedtext = receivedString.substr(1,17)
-                receivedfromip = receivedString.substr(0,1)
+               
                 if(targetvalue == 1){
-                if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                data = parseInt(receivedtext.substr(13,1))          
-                let toip = 　parseInt( receivedfromip)
+                if(tempstr.substr(1,12) == "REQUESTDATA:"){
+                
+                data = parseInt(tempstr.substr(13,1))          
+                let toip = 　parseInt( tempstr.substr(0,1))
                 radio.sendNumber(toip)
                 basic.pause(5)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 radio.sendString(makestring)
                 setgflags = 0
+               tempstr = ""
                 onxHandler(receivedtext,1)
                 
                 }
                     
                 }else{
+                receivedtext = tempstr.substr(1,17)
+                receivedfromip = tempstr.substr(0,1)
              
                 onxHandler(receivedtext,1)
                 setgflags= 0
