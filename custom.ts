@@ -30,6 +30,7 @@ enum lis{
 //% weight=100 color=#0fbc11 icon="\uf1eb"
 //% groups="['LAN', 'SERVER','IOT']"
 namespace IP_NETWORK {
+ 
     let receivedtoip = 0
     let receivedfromip = ""
     let setgflags = 0
@@ -41,11 +42,14 @@ namespace IP_NETWORK {
     let targetvalue = 0
     let list = ["","","","","","","","","",""]
     let onxHandler:  (name :string,value:number) => void
+    let initHandler: () =>void 
 
    function setinit(handler:()=>void){
+
         onxHandler = handler
     }
-    setinit(function(){})
+    setinit(function(){initHandler()}
+    )
     
 
     //%block="グループ番号$nでデバイスのIPアドレスを192.168.0.$xにする"
@@ -81,8 +85,11 @@ namespace IP_NETWORK {
                     let  data = parseInt(receivedtext.substr(13,0))
                     let toip = 　parseInt( receivedfromip)
                  radio.sendNumber(toip)
+                 basic.pause(10)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
+                basic.pause(5)
                 radio.sendString(makestring)
+                flags = 0
                     
                   
                   
@@ -347,7 +354,7 @@ export function　rep(t : string ="OK"):void{
             if(setgflags == 0){
                 setgflags = 1
                 receivedtoip = receivedNumber
-　　　　　　　　　if(receivedtoip == 0){  
+　　　　　　　　　if(receivedNumber == 0){  
                 targetvalue = 1  
 
 
@@ -367,13 +374,15 @@ export function　rep(t : string ="OK"):void{
                 receivedfromip = receivedString.substr(0,1)
                 if(targetvalue == 1){
                 if(receivedtext.substr(0,12) == "REQUESTDATA:"){
-                data = parseInt(receivedtext.substr(12,1))
-                
-                
+                data = parseInt(receivedtext.substr(13,1))          
                 let toip = 　parseInt( receivedfromip)
                 radio.sendNumber(toip)
+                basic.pause(5)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 radio.sendString(makestring)
+                setgflags = 0
+                onxHandler(receivedtext,1)
+                
                 }
                     
                 }else{
@@ -401,6 +410,7 @@ export function　rep(t : string ="OK"):void{
     //% group="IOT"
     //% block="データをセットしておく"
     export function iot(handler:()=>void){
+        initHandler = handler
  
     }
       /**
