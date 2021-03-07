@@ -40,7 +40,7 @@ namespace IP_NETWORK {
     let receivedtext = ""
     
     let targetvalue = 0
-    let list = ["","","","","","","","","",""]
+    let list = ["NODATA","NODATA","NODATA","NODATA","NODATA","NODATA","NODATA","NODATA","NODATA","NODATA"]
     let onxHandler:  (name :string,value:number) => void
     let initHandler: (a:number) =>void 
 
