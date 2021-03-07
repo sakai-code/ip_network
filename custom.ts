@@ -90,9 +90,10 @@ namespace IP_NETWORK {
              
                 
                 if(tempstr.substr(1,12) == "REQUESTDATA:"){
-                    receivedfromip = tempstr.substr(0,1)                 
-                    let  data = parseInt(tempstr.substr(13,1))
-                    let toip = 　parseInt( receivedfromip)
+                receivedtext =""
+                receivedfromip = tempstr.substr(0,1)                 
+                let  data = parseInt(tempstr.substr(13,1))
+                let toip = 　parseInt( receivedfromip)
                 radio.sendNumber(toip)
                 basic.pause(5)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
@@ -100,6 +101,7 @@ namespace IP_NETWORK {
                 radio.sendString(makestring)
                 flags = 0
                 receivedtext = ""
+                tempstr =""
                     
  
 
@@ -112,6 +114,7 @@ namespace IP_NETWORK {
                 onxHandler(receivedtext,1)
                 flags= 0
                 tempstr =  ""
+                
                 }
 
                 
@@ -132,7 +135,7 @@ namespace IP_NETWORK {
     //% group="LAN"
     //% receivedtext.defl=receivedtext
     //% draggableParameters="reporter"
-    //% block="デバイス宛にメッセージ $receivedtext を受け取ったら実行する"
+    //% block="デバイス宛に文字列 $receivedtext を受け取ったら実行する"
     export function onreceived(handler:(receivedtext :string)=> void){
         onxHandler = handler
       
@@ -143,7 +146,7 @@ namespace IP_NETWORK {
      */
     //%weight=89
     //% group="LAN"
-    //% block="受信したIPアドレス宛にメッセージを $t を返す。"
+    //% block="受信したIPアドレス宛に文字列を $t を返す。"
 
 export function　rep(t : string ="OK"):void{
     let toip = 　parseInt( receivedfromip)
@@ -180,6 +183,8 @@ export function　rep(t : string ="OK"):void{
         receivedstring = receivedtext
         return receivedstring
 
+        receivedtext = ""
+
 
 
 
@@ -192,14 +197,15 @@ export function　rep(t : string ="OK"):void{
     //% group="IOT"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに　ID $nのデータを問い合わせた結果の文字列"
-    export function askdata(n:lis):string　{ 
-        radio.sendNumber(0)
+     //% block="サーバーに　ID $nのデータを問い合わせる"
+    export function askdata(n:lis):void{ 
+        let zero = 0
+        radio.sendNumber(zero)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
         radio.sendString(makestring)
 
-        basic.pause(100)
-        return receivedtext
+        basic.pause(5)
+        
 
 
         
@@ -218,15 +224,15 @@ export function　rep(t : string ="OK"):void{
     //% DATA.defl=receivedtext
     //% s.defl=1 s.min=1 s.max=99
     //% draggableParameters="reporter"
-     //% block="192.168.0.$sに　ID $nのデータを問い合わせた結果の文字列"
-    export function askdataip(n:lis,s:number):string　{ 
+     //% block="192.168.0.$sに　ID $nのデータを問い合わせる"
+    export function askdataip(n:lis,s:number):void　{ 
         radio.sendNumber(s)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
         basic.pause(5)
         radio.sendString(makestring)
 
         basic.pause(5)
-        return receivedtext
+       
 
 
         
@@ -333,12 +339,12 @@ export function　rep(t : string ="OK"):void{
 
 
      /**
-     * TODO:グループXのサーバーになりサーバーにメッセージの流れを監視する
+     * TODO:グループXのサーバーになりサーバーに文字列の流れを監視する
    　
      */
     //%weight=60
     //% group="SERVER"
-    //% block="グループ番号$n、192.168.0.0のサーバーになり、メッセージの流れを見る"
+    //% block="グループ番号$n、192.168.0.0のサーバーになり、文字列の流れを見る"
     //% n.min=1 n.max=99 n.defl=1
     export function server(n:number){
         radio.setGroup(n)
@@ -351,11 +357,11 @@ export function　rep(t : string ="OK"):void{
             if(setgflags == 0){
                 setgflags = 1
                 receivedtoip = receivedNumber
-　　　　　　　　　if(receivedNumber == 0){  
+　　　　　　　　　if(receivedNumber == myipaddress){  
                 targetvalue = 1  
 
 
-            }
+            }else{ targetvalue = 0}
             
 
 
@@ -376,12 +382,33 @@ export function　rep(t : string ="OK"):void{
                 data = parseInt(tempstr.substr(13,1))          
                 let toip = 　parseInt( tempstr.substr(0,1))
                 radio.sendNumber(toip)
+                receivedfromip = tempstr.substr(0,1)
                 basic.pause(5)
                 makestring =""+ convertToText(myipaddress)+""+ list[data];
                 radio.sendString(makestring)
                 setgflags = 0
-               tempstr = ""
-                onxHandler(receivedtext,1)
+                
+                receivedtext = tempstr.substr(1,17)
+                receivedfromip = tempstr.substr(0,1)
+
+
+              onxHandler(receivedtext,1)
+
+               basic.pause(5)
+
+               receivedtoip =  toip 
+               receivedfromip = convertToText(myipaddress)
+               
+               receivedtext = list[data]
+
+               onxHandler(receivedtext,1)
+               targetvalue = 0 
+
+               
+
+
+               
+            
                 
                 }
                     
@@ -391,6 +418,7 @@ export function　rep(t : string ="OK"):void{
              
                 onxHandler(receivedtext,1)
                 setgflags= 0
+                targetvalue = 0
                 }
 
                 
@@ -452,7 +480,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=50
     //% group="SERVER"
-    //% block="メッセージのやり取りがあったら"
+    //% block=グループ内で情報のやり取りがあったら"
     
     export function onserver(handler:()=>void){
          onxHandler = handler;
@@ -466,7 +494,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=40
     //% group="SERVER"
-    //% block="送出元IPアドレス to 宛先IPアドレス+メッセージの内容の文字列"
+    //% block="送出元IPアドレス to 宛先IPアドレス+文字列"
     export function  receivedmessage():string　{ 
         let receivedmessage:string;
 
