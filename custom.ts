@@ -216,7 +216,7 @@ export function　rep(t : string ="OK"):void{
 
     }
       /**
-     * TODO:IPアドレス192.168.0.Xに登録されたデータを問い合わせる
+     * TODO:192.168.0.Xに登録されたデータを問い合わせる
    　
      */
     //%weight=50
@@ -265,7 +265,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN"
-    //% block="IPアドレス192.168.0.　$nに文字列 $y　(１７文字までの英数字)を送信"
+    //% block="192.168.0.　$nに文字列 $y　(１７文字までの英数字)を送信"
     //% n.min=1 n.max=99 n.defl=1
     export function sendmessege(n:number,y:string ):void{
         radio.sendNumber(n)
