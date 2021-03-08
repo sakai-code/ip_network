@@ -28,7 +28,7 @@ enum lis{
 }
 
 //% weight=100 color=#0fbc11 icon="\uf1eb"
-//% groups="['LAN', 'SERVER','IOT']"
+//% groups="['LAN', 'SERVER','SET_DATA']"
 namespace IP_NETWORK {
  
     let receivedtoip = 0
@@ -128,7 +128,7 @@ namespace IP_NETWORK {
 
          
     /**
-     * TODO:デバイス宛のメッセージが来たら実行
+     * TODO:デバイス宛の文字列が来たら実行
    　
      */
     //%weight=90
@@ -146,7 +146,7 @@ namespace IP_NETWORK {
      */
     //%weight=89
     //% group="LAN"
-    //% block="受信したIPアドレス宛に文字列を $t を返す。"
+    //% block="受信した直前の相手のIPアドレス宛に文字列を $t を返す。"
 
 export function　rep(t : string ="OK"):void{
     let toip = 　parseInt( receivedfromip)
@@ -165,7 +165,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=90
     //% group="LAN"
-    //% block="自分のIpアドレスの192.168.0.〇に設定した数字を表示"
+    //% block="自分のIPアドレスの192.168.0.〇に設定した数字を表示"
     export function myip():void{
         basic.showNumber(myipaddress)
       
@@ -194,7 +194,7 @@ export function　rep(t : string ="OK"):void{
    　
      */
     //%weight=60
-    //% group="IOT"
+    //% group="SET_DATA"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
      //% block="サーバーに　ID $nのデータを問い合わせる"
@@ -220,7 +220,7 @@ export function　rep(t : string ="OK"):void{
    　
      */
     //%weight=80
-    //% group="IOT"
+    //% group="SET_DATA"
     //% DATA.defl=receivedtext
     //% s.defl=1 s.min=1 s.max=99
     //% draggableParameters="reporter"
@@ -265,7 +265,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN"
-    //% block="IPアドレス192.168.0. $n に文字列 $y　（17文字までの英数字）"
+    //% block="IPアドレス192.168.0.　$nに文字列 $y　(１７文字までの英数字)を送信"
     //% n.min=1 n.max=99 n.defl=1
     export function sendmessege(n:number,y:string ):void{
         radio.sendNumber(n)
@@ -344,7 +344,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=60
     //% group="SERVER"
-    //% block="グループ番号$n、192.168.0.0のサーバーになり、文字列の流れを見る"
+    //% block="グループ番号$n、192.168.0.0のサーバーになる"
     //% n.min=1 n.max=99 n.defl=1
     export function server(n:number){
         radio.setGroup(n)
@@ -434,10 +434,10 @@ export function　rep(t : string ="OK"):void{
         
     }
       /**
-     * TODO:　サーバー内にデータをセットし、リクエストがあったら応える　
+     * TODO: データをセットし、リクエストがあったら応える　
      */
-    //%weight=50
-    //% group="IOT"
+    //%weight=100
+    //% group="SET_DATA"
     //% block="データをセットしておく"
     export function iot(handler:()=>void){
         initHandler = handler
@@ -446,8 +446,8 @@ export function　rep(t : string ="OK"):void{
       /**
      * TODO:応答するIDと対応するデータを登録　
      */
-    //%weight=50
-    //% group="IOT"
+    //%weight=80
+    //% group="SET_DATA"
     //% block="ID $nに数字%mをセット（自動的に文字列として保存）"
     export function  setdata(n:lis,m:number){
         list[n] = convertToText(m)
@@ -459,8 +459,8 @@ export function　rep(t : string ="OK"):void{
         /**
      * TODO:応答するIDと対応するデータを登録　
      */
-    //%weight=50
-    //% group="IOT"
+    //%weight=90
+    //% group="SET_DATA"
     //% block="ID $n文字列$s　（15文字までの英数字）をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
