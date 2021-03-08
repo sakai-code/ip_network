@@ -28,7 +28,7 @@ enum lis{
 }
 
 //% weight=100 color=#0fbc11 icon="\uf1eb"
-//% groups="['LAN', 'SERVER','SET_DATA']"
+//% groups="['LAN', 'SERVER','LAN&SERVER']"
 namespace IP_NETWORK {
  
     let receivedtoip = 0
@@ -146,7 +146,7 @@ namespace IP_NETWORK {
      */
     //%weight=89
     //% group="LAN"
-    //% block="受信した直前の相手のIPアドレス宛に文字列を $t を返す。"
+    //% block="受信した直前の相手のIPアドレス宛に文字列$tを返す。"
 
 export function　rep(t : string ="OK"):void{
     let toip = 　parseInt( receivedfromip)
@@ -194,7 +194,7 @@ export function　rep(t : string ="OK"):void{
    　
      */
     //%weight=60
-    //% group="SET_DATA"
+    //% group="LAN"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
      //% block="サーバーに　ID $nのデータを問い合わせる"
@@ -219,8 +219,8 @@ export function　rep(t : string ="OK"):void{
      * TODO:IPアドレス192.168.0.Xに登録されたデータを問い合わせる
    　
      */
-    //%weight=80
-    //% group="SET_DATA"
+    //%weight=50
+    //% group="LAN"
     //% DATA.defl=receivedtext
     //% s.defl=1 s.min=1 s.max=99
     //% draggableParameters="reporter"
@@ -437,7 +437,7 @@ export function　rep(t : string ="OK"):void{
      * TODO: データをセットし、リクエストがあったら応える　
      */
     //%weight=100
-    //% group="SET_DATA"
+    //% group="LAN&SERVER"
     //% block="データをセットしておく"
     export function iot(handler:()=>void){
         initHandler = handler
@@ -447,7 +447,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:応答するIDと対応するデータを登録　
      */
     //%weight=80
-    //% group="SET_DATA"
+    //% group="LAN&SERVER"
     //% block="ID $nに数字%mをセット（自動的に文字列として保存）"
     export function  setdata(n:lis,m:number){
         list[n] = convertToText(m)
@@ -460,7 +460,7 @@ export function　rep(t : string ="OK"):void{
      * TODO:応答するIDと対応するデータを登録　
      */
     //%weight=90
-    //% group="SET_DATA"
+    //% group="LAN&SERVER"
     //% block="ID $n文字列$s　（15文字までの英数字）をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
