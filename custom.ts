@@ -480,7 +480,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=50
     //% group="SERVER"
-    //% block=グループ内で情報のやり取りがあったら"
+    //% block="グループ内で情報のやり取りがあったら"
     
     export function onserver(handler:()=>void){
          onxHandler = handler;
