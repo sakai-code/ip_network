@@ -27,7 +27,7 @@ enum lis{
 
 }
 
-//% weight=100 color=#0fbc11 icon="\uf1eb"
+//% weight=100 color=#0fbc11 icon="\uf1eb"　block="ネットワーク"
 //% groups="['LAN', 'SERVER','LAN&SERVER']"
 namespace IP_NETWORK {
  
@@ -63,7 +63,7 @@ namespace IP_NETWORK {
     //%weight=100
     //% group="LAN"
     //% n.min=1 n.max=99 n.defl=1
-    //% x.min=1 x.max=99 x.defl=1   
+    //% x.min=1 x.max=19 x.defl=1   
      /**
      * TODO:デバイスのIPアドレスを定めて初期化
      */
@@ -133,10 +133,10 @@ namespace IP_NETWORK {
      */
     //%weight=90
     //% group="LAN"
-    //% receivedtext.defl=receivedtext
+    //% message.defl=receivedtext
     //% draggableParameters="reporter"
-    //% block="デバイス宛に文字列 $receivedtext を受け取ったら実行する"
-    export function onreceived(handler:(receivedtext :string)=> void){
+    //% block="デバイス宛にメッセージ $message を受け取ったら実行する"
+    export function onreceived(handler:(message:string)=> void){
         onxHandler = handler
       
     }
@@ -146,7 +146,7 @@ namespace IP_NETWORK {
      */
     //%weight=89
     //% group="LAN"
-    //% block="受信した直前の相手のIPアドレス宛に文字列$tを返す。"
+    //% block="直前のメッセージを受信した相手宛にメッセージ$tを返す。"
 
 export function　rep(t : string ="OK"):void{
     let toip = 　parseInt( receivedfromip)
@@ -167,7 +167,114 @@ export function　rep(t : string ="OK"):void{
     //% group="LAN"
     //% block="自分のIPアドレスの192.168.0.〇に設定した数字を表示"
     export function myip():void{
-        basic.showNumber(myipaddress)
+        if(myipaddress < 10){basic.showNumber(myipaddress)
+
+        }else{
+            switch(myipaddress){
+                case 10:
+                basic.showLeds(`
+                # . # # #
+                # . # . #
+                # . # . #
+                # . # . #
+                # . # # #
+                `)
+                break
+                case 11:
+                 basic.showLeds(`
+                # . . # .
+                # . . # .
+                # . . # .
+                # . . # .
+                # . . # .
+                `)
+                break
+                case 12:
+                basic.showLeds(`
+    # . # # #
+    # . . . #
+    # . # # #
+    # . # . .
+    # . # # #
+    `)
+    break
+                case 13:
+                basic.showLeds(`
+    # . # # #
+    # . . . #
+    # . # # #
+    # . . . #
+    # . # # #
+    `)     
+    break    
+                 case 14:
+    basic.showLeds(`
+    # . # . #
+    # . # . #
+    # . # # #
+    # . . . #
+    # . . . #
+    `)     
+    break
+                case 15:
+                basic.showLeds(`
+    # . # # #
+    # . # . .
+    # . # # #
+    # . . . #
+    # . # # #
+    `)
+    break
+                case 16:
+                basic.showLeds(`
+    # . # # #
+    # . # . .
+    # . # # #
+    # . # . #
+    # . # # #
+    `)
+    break
+                case 17:
+                basic.showLeds(`
+    # . # # #
+    # . . . #
+    # . . . #
+    # . . . #
+    # . . . #
+    `)
+    break
+                case 18:
+                basic.showLeds(`
+    # . # # #
+    # . # . #
+    # . # # #
+    # . # . #
+    # . # # #
+    `)
+    break
+                case 19:
+                basic.showLeds(`
+    # . # # #
+    # . # . #
+    # . # # #
+    # . . . #
+    # . . . #
+    `)
+    break
+                default: 
+                basic.showNumber(myipaddress)
+                break
+
+
+
+
+
+
+            }
+           
+
+        }
+       
       
     }
 
@@ -177,7 +284,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN"
-    //% block="受信した文字列（英数字）"
+    //% block="受信したメッセージ（英数字）"
     export function receivedstring():string　{ 
         let receivedstring:string
         receivedstring = receivedtext
@@ -222,7 +329,7 @@ export function　rep(t : string ="OK"):void{
     //%weight=50
     //% group="LAN"
     //% DATA.defl=receivedtext
-    //% s.defl=1 s.min=1 s.max=99
+    //% s.defl=1 s.min=1 s.max=19
     //% draggableParameters="reporter"
      //% block="192.168.0.$sに　ID $nのデータを問い合わせる"
     export function askdataip(n:lis,s:number):void　{ 
@@ -259,13 +366,13 @@ export function　rep(t : string ="OK"):void{
     }
 
     /**
-     * TODO:IPアドレスXに文字列（英数字のみ）を送信
+     * TODO:IPアドレスXにメッセージ（英数字のみ）を送信
      * @param y 送信する文字列　,eg:"Hello!"
    　
      */
     //%weight=80
     //% group="LAN"
-    //% block="192.168.0.　$nに文字列 $y　(１７文字までの英数字)を送信"
+    //% block="192.168.0.　$nにメッセージ $y　(１７文字までの英数字)を送信"
     //% n.min=1 n.max=99 n.defl=1
     export function sendmessege(n:number,y:string ):void{
         radio.sendNumber(n)
@@ -339,12 +446,12 @@ export function　rep(t : string ="OK"):void{
 
 
      /**
-     * TODO:グループXのサーバーになりサーバーに文字列の流れを監視する
+     * TODO:グループXのサーバーになりメッセージの流れを監視する
    　
      */
     //%weight=60
     //% group="SERVER"
-    //% block="グループ番号$n、192.168.0.0のサーバーになる"
+    //% block="グループ番号$n、192.168.0.0　のサーバーになる"
     //% n.min=1 n.max=99 n.defl=1
     export function server(n:number){
         radio.setGroup(n)
@@ -434,11 +541,11 @@ export function　rep(t : string ="OK"):void{
         
     }
       /**
-     * TODO: データをセットし、リクエストがあったら応える　
+     * TODO: リクエストがあったらこの中のブロックのデータを自動的に返信する"
      */
     //%weight=100
     //% group="LAN&SERVER"
-    //% block="データをセットしておく"
+    //% block="リクエストがあったらこの中のデータを自動的に返信する"
     export function iot(handler:()=>void){
         initHandler = handler
  
@@ -448,7 +555,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN&SERVER"
-    //% block="ID $nに数字%mをセット（自動的に文字列として保存）"
+    //% block=" $n　番目に数字%mをセット"
     export function  setdata(n:lis,m:number){
         list[n] = convertToText(m)
 
@@ -461,7 +568,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=90
     //% group="LAN&SERVER"
-    //% block="ID $n文字列$s　（15文字までの英数字）をセット"
+    //% block=" $n　番目にメッセージ　$s（15文字までの英数字）をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
 
@@ -480,7 +587,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=50
     //% group="SERVER"
-    //% block="グループ内で情報のやり取りがあったら"
+    //% block=グループ内でメッセージのやり取りがあったら"
     
     export function onserver(handler:()=>void){
          onxHandler = handler;
