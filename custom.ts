@@ -305,7 +305,7 @@ export function　rep(t : string ="OK"):void{
     //% group="LAN"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに　$n　番目のデータを問い合わせる"
+     //% block="サーバーに登録されている　$n　番目のデータを問い合わせる"
     export function askdata(n:lis):void{ 
         let zero = 0
         radio.sendNumber(zero)
