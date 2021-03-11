@@ -556,7 +556,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=80
     //% group="LAN&SERVER"
-    //% block=" $n　番目に数字%mをセット"
+    //% block=" $n　番目に数字データ　%mをセット"
     export function  setdata(n:lis,m:number){
         list[n] = convertToText(m)
 
@@ -569,7 +569,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=90
     //% group="LAN&SERVER"
-    //% block=" $n　番目にメッセージ　$s（15文字までの英数字）をセット"
+    //% block=" $n　番目にメッセージデータ　$s（15文字までの英数字）をセット"
     export function  setdatastr(n:lis,s:string){
         list[n] = s
 
