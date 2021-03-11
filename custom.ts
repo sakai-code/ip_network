@@ -305,7 +305,7 @@ export function　rep(t : string ="OK"):void{
     //% group="LAN"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに登録されている　$n　番目のデータを問い合わせる"
+     //% block="サーバーに登録されている　$n　番目のデータをリクエスト"
     export function askdata(n:lis):void{ 
         let zero = 0
         radio.sendNumber(zero)
@@ -324,7 +324,7 @@ export function　rep(t : string ="OK"):void{
 
     }
       /**
-     * TODO:192.168.0.Xに登録されたデータを問い合わせる
+     * TODO:192.168.0.Xに登録されたデータをリクエスト
    　
      */
     //%weight=50
@@ -332,7 +332,7 @@ export function　rep(t : string ="OK"):void{
     //% DATA.defl=receivedtext
     //% s.defl=1 s.min=1 s.max=19
     //% draggableParameters="reporter"
-     //% block="192.168.0.$s に登録されている $n　番目のデータを問い合わせる"
+     //% block="192.168.0.$s に登録されている $n　番目のデータをリクエスト"
     export function askdataip(n:lis,s:number):void　{ 
         radio.sendNumber(s)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
