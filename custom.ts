@@ -27,7 +27,8 @@ enum lis{
 
 }
 
-//% weight=100 color=#0fbc11 icon="\uf1eb"　block="ネットワーク"
+
+//% weight=100 color=#0fbc11 icon="\uf1eb" block="ネットワーク"
 //% groups="['LAN', 'SERVER','LAN&SERVER']"
 namespace IP_NETWORK {
  
@@ -304,7 +305,7 @@ export function　rep(t : string ="OK"):void{
     //% group="LAN"
     //% DATA.defl=receivedtext
     //% draggableParameters="reporter"
-     //% block="サーバーに　ID $nのデータを問い合わせる"
+     //% block="サーバーに　$n　番目のデータを問い合わせる"
     export function askdata(n:lis):void{ 
         let zero = 0
         radio.sendNumber(zero)
@@ -331,7 +332,7 @@ export function　rep(t : string ="OK"):void{
     //% DATA.defl=receivedtext
     //% s.defl=1 s.min=1 s.max=19
     //% draggableParameters="reporter"
-     //% block="192.168.0.$sに　ID $nのデータを問い合わせる"
+     //% block="192.168.0.$s に登録されている $n　番目のデータを問い合わせる"
     export function askdataip(n:lis,s:number):void　{ 
         radio.sendNumber(s)
         makestring =""+ convertToText(myipaddress)+"REQUESTDATA:"+""+ convertToText(n);
@@ -545,13 +546,13 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=100
     //% group="LAN&SERVER"
-    //% block="リクエストがあったらこの中のデータを自動的に返信する"
+    //% block="リクエストがあったらこのブロック内に登録したデータを自動的に返信する"
     export function iot(handler:()=>void){
         initHandler = handler
  
     }
       /**
-     * TODO:応答するIDと対応するデータを登録　
+     * TODO:番号と対応するデータを登録　
      */
     //%weight=80
     //% group="LAN&SERVER"
@@ -564,7 +565,7 @@ export function　rep(t : string ="OK"):void{
  
     }
         /**
-     * TODO:応答するIDと対応するデータを登録　
+     * TODO:番号と対応するメッセージを登録　
      */
     //%weight=90
     //% group="LAN&SERVER"
