@@ -129,14 +129,14 @@ namespace IP_NETWORK {
 
          
     /**
-     * TODO:デバイス宛の文字列が来たら実行
+     * TODO:デバイス宛のメッセージ（英数字）が来たら実行
    　
      */
     //%weight=90
     //% group="LAN"
     //% message.defl=receivedtext
     //% draggableParameters="reporter"
-    //% block="デバイス宛にメッセージ $message を受け取ったら実行する"
+    //% block="デバイス宛にメッセージ $message （英数字）を受け取ったら実行する"
     export function onreceived(handler:(message:string)=> void){
         onxHandler = handler
       
@@ -147,7 +147,7 @@ namespace IP_NETWORK {
      */
     //%weight=89
     //% group="LAN"
-    //% block="直前のメッセージを受信した相手宛にメッセージ$tを返す。"
+    //% block="直前のメッセージを受信した相手宛にメッセージ$t (英数字)を返す。"
 
 export function　rep(t : string ="OK"):void{
     let toip = 　parseInt( receivedfromip)
@@ -588,7 +588,7 @@ export function　rep(t : string ="OK"):void{
      */
     //%weight=50
     //% group="SERVER"
-    //% block=グループ内でメッセージのやり取りがあったら"
+    //% block="グループ内でメッセージのやり取りがあったら"
     
     export function onserver(handler:()=>void){
          onxHandler = handler;
