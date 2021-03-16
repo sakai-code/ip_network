@@ -11,7 +11,13 @@ This repository can be added as an **extension** in MakeCode.
 * search for **https://github.com/sakai-code/ip_network** and import
 ![IP_NETWORK_page-0001](https://user-images.githubusercontent.com/76587090/111240660-fe735e00-863e-11eb-9588-544c60cb92ed.jpg)
 ![IP_NETWORK_page-0002](https://user-images.githubusercontent.com/76587090/111240665-ffa48b00-863e-11eb-9c90-84e258fc4e97.jpg)
+
+**https://github.com/sakai-code/ip_network**
+
 ![IP_NETWORK_page-0003](https://user-images.githubusercontent.com/76587090/111240666-ffa48b00-863e-11eb-804c-6369f2bb2296.jpg)
+
+**https://github.com/sakai-code/oled-ssd1306**
+
 ![IP_NETWORK_page-0004](https://user-images.githubusercontent.com/76587090/111240668-003d2180-863f-11eb-8cf6-bb47560f67e2.jpg)
 ![IP_NETWORK_page-0005](https://user-images.githubusercontent.com/76587090/111240669-00d5b800-863f-11eb-9a9a-75a5547477d7.jpg)
 ![IP_NETWORK_page-0006](https://user-images.githubusercontent.com/76587090/111240671-00d5b800-863f-11eb-8cfd-ac7016142dcb.jpg)
